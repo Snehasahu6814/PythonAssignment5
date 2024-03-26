@@ -14,8 +14,7 @@ for index, row in user_credential.iterrows():
     user_id = row["User ID"]
     user = row["User Name"]
     password = row["Password"]
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-    (By.XPATH, '//*[@id="user-name"]')))
+    WebDriverWait(driver, 8).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="user-name"]')))
     username_field = driver.find_element(By.XPATH,'//*[@id="user-name"]')
     password_field = driver.find_element(By.XPATH,'//*[@id="password"]')
     login_button = driver.find_element(By.XPATH,'//*[@id="login-button"]')
@@ -28,9 +27,8 @@ for index, row in user_credential.iterrows():
     driver.back()
     ERROR_MESSAGE = ""
     try:
-        ERROR_MESSAGE=driver.find_element(By.XPATH,
-                                          '//*[@id="login_button_container"]/div/form/h3').text
-    except ImportError:
+        ERROR_MESSAGE=driver.find_element(By.XPATH,'//*[@id="login_button_container"]/div/form/h3').text
+    except:
         pass
     new_data = {"User ID": [user_id], "Login Message": [ERROR_MESSAGE]}
     new_df = pd.DataFrame(new_data)

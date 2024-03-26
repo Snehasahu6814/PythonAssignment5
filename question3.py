@@ -7,9 +7,9 @@ from selenium.webdriver.common.by import By
 driver = webdriver.Edge()
 driver.get("https://www.saucedemo.com/v1/")
 driver.maximize_window()
-# List to store product details
+# List to store all the  product details
 product_details = []
-# Login with a user
+# Login with the username and password
 username_input = driver.find_element(By.ID, "user-name")
 username_input.clear()
 username_input.send_keys("standard_user")
@@ -20,17 +20,17 @@ password_input.send_keys("secret_sauce")
 login_button = driver.find_element(By.ID, "login-button")
 login_button.click()
 time.sleep(4)
-# Retrieve product information
+# Retrieving all the product information
 product_elements = driver.find_elements(By.XPATH,"//div[@class='inventory_item']")
 for product_element in product_elements:
     product_id=product_element.find_element(By.XPATH,
-    ".//div[@class='inventory_item_img']/a").get_attribute("href").split("=")[-1]
+    "//div[@class='inventory_item_img']/a").get_attribute("href").split("=")[-1]
     product_name=product_element.find_element(By.XPATH,
-    ".//div[@class='inventory_item_name']").text
+    "//div[@class='inventory_item_name']").text
     product_description = product_element.find_element(By.XPATH,
     ".//div[@class='inventory_item_desc']").text
     product_price=product_element.find_element(By.XPATH,
-    ".//div[@class='inventory_item_price']").text
+    "//div[@class='inventory_item_price']").text
     product_details.append({
         "Product ID": product_id,
         "Product Name": product_name,
@@ -41,6 +41,6 @@ for product_element in product_elements:
 driver.quit()
 # Create a DataFrame from the product details
 df_product_details = pd.DataFrame(product_details)
-# Append the product details to the "Product Details" sheet in the existing Excel file
+# Appending  the product details to the "Product Details" sheet in the existing Excel file
 with pd.ExcelWriter("user credentials.xlsx", mode="a", engine="openpyxl") as writer:
     df_product_details.to_excel(writer, sheet_name="Product Details", index=False)
